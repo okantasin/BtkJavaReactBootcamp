@@ -2,6 +2,9 @@ package com.java.org.btk.employee.api;
 
 import com.java.org.btk.employee.dataAccess.EmployeeRepository;
 import com.java.org.btk.employee.entities.Employee;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,28 +21,41 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public List<Employee> getAllEmployee() {
-        return this.employeeRepository.findAll();
+    public ResponseEntity<List<Employee>> getAllEmployee() {
+         List<Employee>  employees = this.employeeRepository.findAll();
+        return new ResponseEntity <List<Employee>> (employees, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public Employee getOneEmployee(@PathVariable int id) {
+    public ResponseEntity<Employee> getOneEmployee(@PathVariable int id) {
         Optional<Employee> employee = this.employeeRepository.findById(id);
         if (employee.isPresent()) {
-            return employee.get();
+            return ResponseEntity.ok( employee.get());
         }
         throw new RuntimeException(String.format("Employee with %s id could not  found", id));
     }
 
     @PostMapping
-    public Employee createOneEmployee(@RequestBody Employee employee) {
-        return this.employeeRepository.save(employee);
-
+    public ResponseEntity<Employee>  createOneEmployee(@RequestBody Employee employee) {
+        Employee emp = this.employeeRepository.save(employee);
+        return new ResponseEntity<Employee>(emp,HttpStatus.CREATED);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Employee> deleteOneEmployee(@PathVariable("id") int id) {
+        this.employeeRepository.deleteById(id);
+       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteOneEmployee(@PathVariable("id") int id) {
-        this.employeeRepository.deleteById(id);
+    @PutMapping("/{id}")
+    public ResponseEntity<Employee> updateOneEmployee(@PathVariable(name="id", required = true)int id,@RequestBody Employee employee){
+        Employee emp = this.employeeRepository.findById(id).orElse(null);
+        if(emp!=null){
+            emp.setFirstName(employee.getFirstName());
+            emp.setLastName(employee.getFirstName());
+            return  new ResponseEntity<>(this.employeeRepository.save(employee),HttpStatus.ACCEPTED);
+
+        }
+        throw new RuntimeException("Employee this not exists!");
     }
 
 
