@@ -1,12 +1,30 @@
-import './App.css';
+import { useEffect, useState } from "react";
+import EmployeeService from "./services/EmployeeService";
+import EmployeeList from "./components/EmployeeList";
+
 
 function App() {
-  return (
-    <div className="App">
+  const employeeService = new EmployeeService();
+  const [employees, setEmployees] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
-<h1>okan</h1>
+  useEffect(() => {
+    employeeService.getAllEmployees().then((resp) => setEmployees(resp.data));
+  }, [refresh]);
+
+  return (
+    <div>
+
+
+      <EmployeeList
+        employees={employees}
+        setRefresh={setRefresh}
+        refresh={refresh}
+      />
     </div>
+
+
+
   );
 }
-
 export default App;

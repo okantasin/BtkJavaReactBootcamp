@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/employees")
+@CrossOrigin
 public class EmployeeController {
 
     private final EmployeeRepository employeeRepository;
