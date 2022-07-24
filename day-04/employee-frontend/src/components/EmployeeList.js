@@ -12,7 +12,7 @@ import { IconButton } from '@mui/material';
 import DeleteIcon from "@mui/icons-material/Delete";
 
 
-export default function EmployeeList({ employees, refresh, setRefresh }) {
+function EmployeeList({ employees, refresh, setRefresh }) {
     const employeeService = new EmployeeService();
     const handleDelete=(id)=>{
         console.log("delete",id);
@@ -61,3 +61,4 @@ export default function EmployeeList({ employees, refresh, setRefresh }) {
         </List>
     );
 }
+export default EmployeeList;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import EmployeeService from "./services/EmployeeService";
 import EmployeeList from "./components/EmployeeList";
-
+import EmployeeAdd from "./components/EmployeeAdd";
 
 function App() {
   const employeeService = new EmployeeService();
@@ -15,8 +15,13 @@ function App() {
   return (
     <div>
 
-
       <EmployeeList
+        employees={employees}
+        setRefresh={setRefresh}
+        refresh={refresh}
+      />
+
+      <EmployeeAdd
         employees={employees}
         setRefresh={setRefresh}
         refresh={refresh}

@@ -16,6 +16,11 @@ class EmployeeService {
         return status;
     }
 
+    async postOneEmployees(body){
+        const {data, status} = await axios.post(this.baseUrl, body).then(resp=>resp);
+        return{data, status}
+    }
+
 }
 
 export default EmployeeService;
