@@ -12,8 +12,10 @@ import { IconButton } from '@mui/material';
 import DeleteIcon from "@mui/icons-material/Delete";
 
 
-function EmployeeList({ employees, refresh, setRefresh }) {
+function EmployeeList({ employees, refresh, setRefresh ,filterText,setFilterText}) {
     const employeeService = new EmployeeService();
+
+
     const handleDelete=(id)=>{
         console.log("delete",id);
         employeeService.deleteOneEmployees(id).then((resp)=>{

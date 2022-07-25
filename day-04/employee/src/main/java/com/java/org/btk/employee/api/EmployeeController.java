@@ -2,7 +2,6 @@ package com.java.org.btk.employee.api;
 
 import com.java.org.btk.employee.dataAccess.EmployeeRepository;
 import com.java.org.btk.employee.entities.Employee;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +33,12 @@ public class EmployeeController {
             return ResponseEntity.ok( employee.get());
         }
         throw new RuntimeException(String.format("Employee with %s id could not  found", id));
+    }
+    //localhost/api/employees/search?q=...
+    @GetMapping(path = "/search")
+    public ResponseEntity<Object> searchByFirstName(@RequestParam(name="q", required = true) String q){
+       List<Employee> list = this.employeeRepository.findAllByFirstNameContainingIgnoreCase(q);
+       return new ResponseEntity<>(list,HttpStatus.OK);
     }
 
     @PostMapping
